@@ -2,27 +2,44 @@ package com.codecool.carrace;
 
 import java.util.Random;
 
-class MotorCycle {
+class MotorCycle extends Vehicle{
 
-    String name;
+
+    private String name;
     private int normalSpeed;
-    int distanceTraveled;
-    static int nameNumber = 1;
-
+    private int distanceTraveled;
+    private String type;
+    private static int nameNumber = 1;
 
     MotorCycle(){
         this.setName();
         normalSpeed = 100;
         distanceTraveled = 0;
+        type = "Motorcycle";
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public int getDistanceTraveled() {
+        return distanceTraveled;
+    }
+
+    @Override
+    public String getType() {
+        return type;
     }
 
     private void setName(){
         this.name = "Motorcycle " + nameNumber++;
     }
 
-    void moveForAnHour(boolean isRaining){
+    void moveForAnHour(){
         Random rnd = new Random();
         this.distanceTraveled += this.normalSpeed;
-        if (isRaining) distanceTraveled -= rnd.nextInt(46) + 5;
+        if (Main.isRaining) distanceTraveled -= rnd.nextInt(46) + 5;
     }
 }

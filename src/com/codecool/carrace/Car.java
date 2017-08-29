@@ -2,18 +2,34 @@ package com.codecool.carrace;
 
 import java.util.Random;
 
-class Car {
+class Car extends Vehicle{
 
-    String name;
+    private String name;
     private int normalSpeed;
-    int distanceTraveled;
-
+    private int distanceTraveled;
+    private String type;
     private static int speedLimit;
 
     Car(){
         this.setName();
         this.setNormalSpeed();
         distanceTraveled = 0;
+        type = "Car";
+    }
+
+    @Override
+    public int getDistanceTraveled() {
+        return distanceTraveled;
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public String getType() {
+        return type;
     }
 
     static void setSpeedLimit(int limit){

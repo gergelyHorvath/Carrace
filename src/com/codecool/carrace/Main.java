@@ -3,21 +3,21 @@ package com.codecool.carrace;
 import java.util.Random;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Collections;
 
 
 public class Main {
 
-    private List<Car> carList = new ArrayList<>();
-    private List<MotorCycle> bikeList = new ArrayList<>();
-    private List<Truck> truckList = new ArrayList<>();
-    private static boolean isRaining;
+    private List<Vehicle> vehicleList = new ArrayList<>();
+    static boolean isRaining;
 
     private void createVehicles(){
         int numberOfVehicles = 10;
         for (int i = 0; i < numberOfVehicles; i++) {
-            this.carList.add(new Car());
-            this.bikeList.add(new MotorCycle());
-            this.truckList.add(new Truck());
+            this.vehicleList.add(new Car());
+            this.vehicleList.add(new MotorCycle());
+            this.vehicleList.add(new Truck());
         }
     }
 
@@ -28,34 +28,34 @@ public class Main {
             int rainSpeed = (isRaining)? 70: 0;
             Car.setSpeedLimit(rainSpeed);
 
-            for (int idx = 0; idx < this.carList.size(); idx++){
-                this.carList.get(idx).moveForAnHour();
-                this.bikeList.get(idx).moveForAnHour(isRaining);
-                this.truckList.get(idx).moveForAnHour();
+            /*for (int idx = 0; idx < this.vehicleList.size(); idx++){
+                this.vehicleList.get(idx).moveForAnHour();
+            }*/
+            for (Vehicle vehicle: vehicleList){
+                vehicle.moveForAnHour();
             }
         }
     }
 
-
     private void printRaceResults(){
-        System.out.println("Cars:\n");
-        for (Car car: carList){
-            System.out.printf("%s %s %n", car.name, car.distanceTraveled);
+        for (Vehicle vehicle: vehicleList){
+            System.out.printf("Name: %s, Distance(km): %s, Type: %s %n",
+                    vehicle.getName(),
+                    vehicle.getDistanceTraveled(),
+                    vehicle.getType());
         }
-        System.out.println("\nMotorcycles:\n");
-        for (MotorCycle bike: bikeList){
-            System.out.printf("%s %s %n", bike.name, bike.distanceTraveled);
-        }
-        System.out.println("\nTrucks:\n");
-        for (Truck truck: truckList){
-            System.out.printf("%s %s %n", truck.name, truck.distanceTraveled);
-        }
+    }
+
+    private void sortByDistance(){
+        vehicleList.sort(Comparator.comparing(Vehicle::getDistanceTraveled));
+        Collections.reverse(vehicleList);
     }
 
     public static void main(String[] args) {
         Main race = new Main();
         race.createVehicles();
         race.simulateRace();
+        race.sortByDistance();
         race.printRaceResults();
     }
 }
